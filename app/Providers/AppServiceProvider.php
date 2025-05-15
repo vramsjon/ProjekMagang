@@ -9,6 +9,9 @@ use Laravel\Passport\DeviceCode;
 use Laravel\Passport\Passport;
 use Laravel\Passport\RefreshToken;
 use Laravel\Passport\Token;
+use Dedoc\Scramble\Scramble;
+use Dedoc\Scramble\Support\Generator\OpenApi;
+use Dedoc\Scramble\Support\Generator\SecurityScheme;
  
 class AppServiceProvider extends ServiceProvider
 {
@@ -30,5 +33,12 @@ class AppServiceProvider extends ServiceProvider
         Passport::useAuthCodeModel(AuthCode::class);
         Passport::useClientModel(Client::class);
         Passport::useDeviceCodeModel(DeviceCode::class);
+
+        Scramble::configure()
+        ->withDocumentTransformers(function (OpenApi $openApi) {
+            $openApi->secure(
+                SecurityScheme::http('bearer')
+            );
+        });
     }
 }

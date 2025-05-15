@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\RegisterRequest;
+use App\Http\Responses\RegisterResponse;
 
 class RegisterController extends Controller
 {
@@ -27,10 +28,6 @@ class RegisterController extends Controller
             'password'  => Hash::make($request->password)
         ]);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Register Success!',
-            'data'    => $user
-        ]);
+        return RegisterResponse::success('Register Succes!', $user);
     }
 }

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\LoginRequest;
+use App\Http\Responses\LoginResponse;
 
 class LoginController extends Controller
 {
@@ -30,11 +31,10 @@ class LoginController extends Controller
             ]);
         }
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Login Success!',
-            'data'    => $user,
-            'token'   => $user->createToken('authToken')->accessToken
-        ]);
+        return LoginResponse::success(
+            'login Success!',
+            $user,
+            $user->createToken('authToken')->accessToken
+        );
     }
 }
